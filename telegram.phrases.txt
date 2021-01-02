@@ -2,12 +2,12 @@
 {
 	"Menu title"
 	{
-		"ru"	"TGReport:"
+		"ru"	"Подать жалобу на игрока:"
 	}
 
 	"Prefix"
 	{
-		"ru"	"[TGReport] "
+		"ru"	"[Telegram] "
 	}
 
 	"Panel text"
@@ -20,13 +20,8 @@
 		"ru"	"Отмена"
 	}
 
-	"Request success"
+	"Complaint sent"
 	{
 		"ru"	"Ваша жалоба отправлена администраторам"
-	}
-
-	"Request failed"
-	{
-		"ru"	"При отправке жалобы произошла ошибка"
 	}
 }
