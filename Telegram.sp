@@ -68,6 +68,9 @@ public void OnClientConnected(int iClient) {
 }
 
 public void MAOnClientMuted(int iClient, int iTarget, char[] szIP, char[] szSteamID, char[] szName, int iType, int iTime, char[] szReason) {
+	if (!iClient)
+		return;
+
 	char szMessage[512], szAdminAuthID[32], szTargetAuthID[32], szExpires[64], szType[64];
 	
 	GetClientAuthId(iClient, 1, szAdminAuthID, sizeof(szAdminAuthID), true);
@@ -98,6 +101,9 @@ public void MAOnClientMuted(int iClient, int iTarget, char[] szIP, char[] szStea
 }
 
 public void MAOnClientBanned(int iClient, int iTarget, char[] szIP, char[] szSteamID, char[] szName, int iTime, char[] szReason) {
+	if (!iClient)
+		return;
+
 	char szMessage[512], szAdminAuthID[32], szTargetAuthID[32], szExpires[64];
 
 	GetClientAuthId(iClient, 1, szAdminAuthID, sizeof(szAdminAuthID), true);
