@@ -68,13 +68,13 @@ public void OnClientConnected(int iClient) {
 }
 
 public void MAOnClientMuted(int iClient, int iTarget, char[] szIP, char[] szSteamID, char[] szName, int iType, int iTime, char[] szReason) {
-	if (!iClient)
+	if (!iClient || !IsClientInGame(iClient))
 		return;
 
 	char szMessage[512], szAdminAuthID[32], szTargetAuthID[32], szExpires[64], szType[64];
 	
-	GetClientAuthId(iClient, 1, szAdminAuthID, sizeof(szAdminAuthID), true);
-	GetClientAuthId(iTarget, 1, szTargetAuthID, sizeof(szTargetAuthID), true);
+	GetClientAuthId(iClient, AuthId_Steam2, szAdminAuthID, sizeof(szAdminAuthID), true);
+	GetClientAuthId(iTarget, AuthId_Steam2, szTargetAuthID, sizeof(szTargetAuthID), true);
 
 	if (iTime) {
 		FormatTime(szExpires, sizeof(szExpires), "%d/%m/%Y %H:%M:%S", GetTime() + iTime * 60);
@@ -101,13 +101,13 @@ public void MAOnClientMuted(int iClient, int iTarget, char[] szIP, char[] szStea
 }
 
 public void MAOnClientBanned(int iClient, int iTarget, char[] szIP, char[] szSteamID, char[] szName, int iTime, char[] szReason) {
-	if (!iClient)
+	if (!iClient || !IsClientInGame(iClient))
 		return;
 
 	char szMessage[512], szAdminAuthID[32], szTargetAuthID[32], szExpires[64];
 
-	GetClientAuthId(iClient, 1, szAdminAuthID, sizeof(szAdminAuthID), true);
-	GetClientAuthId(iTarget, 1, szTargetAuthID, sizeof(szTargetAuthID), true);
+	GetClientAuthId(iClient, AuthId_Steam2, szAdminAuthID, sizeof(szAdminAuthID), true);
+	GetClientAuthId(iTarget, AuthId_Steam2, szTargetAuthID, sizeof(szTargetAuthID), true);
 
 	if (iTime) {
 		FormatTime(szExpires, sizeof(szExpires), "%d/%m/%Y %H:%M:%S", GetTime() + iTime * 60);
@@ -127,7 +127,7 @@ public Action reportCommand(int iClient, int iArgs) {
 }
 
 public Action onPlayerSay(int iClient, const char[] szCommand, int iArgs) {
-	if (!IsClientInGame(iClient) || !g_Complaints[iClient].m_bIsSayHooked)
+	if (!iClient || !IsClientInGame(iClient) || !g_Complaints[iClient].m_bIsSayHooked)
 		return Plugin_Continue;
 
 	char szComment[256], szReportMessage[1024];
@@ -192,8 +192,8 @@ public void createReportMessage(char[] szReportMessage, int iMaxLength, int iCli
 	FormatTime(szDate, sizeof(szDate), "%d/%m/%Y");
 	FormatTime(szTime, sizeof(szTime), "%H:%M:%S");
 
-	GetClientAuthId(iClient, 1, szClientAuthID, sizeof(szClientAuthID), true);
-	GetClientAuthId(iSuspect, 1, szSuspectAuthID, sizeof(szSuspectAuthID), true);
+	GetClientAuthId(iClient, AuthId_Steam2, szClientAuthID, sizeof(szClientAuthID), true);
+	GetClientAuthId(iSuspect, AuthId_Steam2, szSuspectAuthID, sizeof(szSuspectAuthID), true);
 
 	Format(szReportMessage, iMaxLength, "<b>Жалоба от:</b> %N (%s)\n<b>Нарушитель:</b> %N (%s)\n<b>Дата:</b> %s\n<b>Время:</b> %s\n<b>Комментарий:</b> %s", iClient, szClientAuthID, iSuspect, szSuspectAuthID, szDate, szTime, szComment);
 }
